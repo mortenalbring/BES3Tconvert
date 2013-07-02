@@ -48,29 +48,45 @@ def main(argv):
     if fileExtension == ".DTA" :
         print("Now converting DTA file!");
 
+        toggle = 2;
+        xdata = [];
+        ydata = [];
+        l = 1;
         fin = open(inputfile,'rb');
-        fout = open(outputfile,'w');
+        
+        with open(inputfile,'rb') as inh:
+            indata = inh.read()
+        for i in range(0,len(indata),4) :
+            pos = struct.unpack('>f',indata[i:i+4])           
+        
+            if toggle == 1 :
+                xdata.append(pos[0]);
+                l = l + 1;
+                toggle = 2;
+            else :
+                ydata.append(pos[0]);
+                l = l + 1;
+                toggle = 1;
+        fin.close()
 
-        toggle = 1;
-        try:
-            b = struct.unpack('>f',fin.read(4));
-            while b != "":
-                b = struct.unpack('>f',fin.read(4));
-                if toggle == 1 :
-                    print(b[0])
-                    print(',')
-                    fout.write(str(b[0]));
-                    fout.write(',');
-                    toggle = 2;
-                else :
-                    print(b[0])
-                    fout.write(str(b[0]));
-                    fout.write('\n');
-                    toggle = 1;
-                    
-        finally:
-            fin.close()
 
+    else :
+        print("That's not a DTA file");
+
+
+#Write stuff to files
+    
+    
+    fout = open(outputfile,'w');
+    print(str(len(xdata)))
+    print(str(len(ydata)))
+
+    for i in range(0,len(xdata)):
+        fout.write(str(xdata[i]))
+        fout.write(",")
+        fout.write(str(ydata[i]))
+        fout.write("\n");
+            
 
 if __name__ == "__main__":
    main(sys.argv[1:])

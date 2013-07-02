@@ -217,3 +217,10 @@ pip-log.txt
 
 #Output files
 test.txt
+out.txt
+
+#Input files
+g.DTA
+g.DSC
+V1P45.par
+V1P45.spc
