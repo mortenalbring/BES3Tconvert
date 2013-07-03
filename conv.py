@@ -103,17 +103,12 @@ def main(argv):
         
         with open(inputfile,'rb') as inh:
             indata = inh.read()
-        for i in range(0,len(indata),4) :
-            pos = struct.unpack('>f',indata[i:i+4])           
+        for i in range(0,len(indata),8) :
+            pos = struct.unpack('>d',indata[i:i+8])           
         
-            if toggle == 1 :
-         #       xdata.append(pos[0]);
-                l = l + 1;
-                toggle = 2;
-            else :
-                ydata.append(pos[0]);
-                l = l + 1;
-                toggle = 1;
+            ydata.append(pos[0]);
+            l = l + 1;
+            toggle = 1;
         fin.close()
 
 
