@@ -35,11 +35,58 @@ def main(argv):
         print("conv.py -i inputfile -o outputfile")
         sys.exit(2)
 
+    fileName, fileExtension = os.path.splitext(inputfile)
+
+    paramfile = fileName + ".DSC";
+    print("\n")
+    print(paramfile);
+
+
 #Test if input file exists
     try:
         with open(inputfile) : pass
     except IOError:
         print("input file doesn't exist!")
+        sys.exit(2)
+
+#Test if param file exists
+    try:
+        with open(paramfile) : pass
+    except IOError:
+        print("parameter file doesn't exist!")
+        sys.exit(2)
+
+
+
+    fin = open(paramfile,'r');
+    for line in fin :
+        
+        p = line[0:4]
+        #print(p)
+                
+        if p == 'XPTS' :
+            xpoints = int(line[5:len(line)]);
+            print(str(xpoints))
+            
+        if p == 'XMIN' :
+            xmin = float(line[5:len(line)]);
+            print(str(xmin))
+            
+        if p == 'XWID' :
+            xwid = float(line[5:len(line)]);
+            print(str(xwid))
+
+
+    xmax = xmin + xwid
+    xsampling = xwid / xpoints
+
+    xdata = [];
+    for k in range(1,xpoints,1) :
+        xdata.append(xmin + (xsampling * (k - 1)))
+        print(xdata[k-1])
+        
+
+
 
 #Test if file is DTA
         
@@ -49,7 +96,7 @@ def main(argv):
         print("Now converting DTA file!");
 
         toggle = 2;
-        xdata = [];
+        #xdata = [];
         ydata = [];
         l = 1;
         fin = open(inputfile,'rb');
@@ -60,7 +107,7 @@ def main(argv):
             pos = struct.unpack('>f',indata[i:i+4])           
         
             if toggle == 1 :
-                xdata.append(pos[0]);
+         #       xdata.append(pos[0]);
                 l = l + 1;
                 toggle = 2;
             else :
@@ -75,7 +122,6 @@ def main(argv):
 
 
 #Write stuff to files
-    
     
     fout = open(outputfile,'w');
     print(str(len(xdata)))
