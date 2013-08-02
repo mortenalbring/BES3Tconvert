@@ -56,8 +56,6 @@ def main(argv):
         print("parameter file doesn't exist!")
         sys.exit(2)
 
-
-
     fin = open(paramfile,'r');
     for line in fin :
         
@@ -85,20 +83,14 @@ def main(argv):
         xdata.append(xmin + (xsampling * (k - 1)))
         print(xdata[k-1])
         
-
-
-
-#Test if file is DTA
-        
+#Test if file is DTA        
     fileName, fileExtension = os.path.splitext(inputfile)
     print(fileExtension)
     if fileExtension == ".DTA" :
         print("Now converting DTA file!");
 
         toggle = 2;
-        #xdata = [];
         ydata = [];
-        l = 1;
         fin = open(inputfile,'rb');
         
         with open(inputfile,'rb') as inh:
@@ -107,15 +99,10 @@ def main(argv):
             pos = struct.unpack('>d',indata[i:i+8])           
         
             ydata.append(pos[0]);
-            l = l + 1;
-            toggle = 1;
-        fin.close()
-
-
+        fin.close()        
     else :
         print("That's not a DTA file");
-
-
+        
 #Write stuff to files
     
     fout = open(outputfile,'w');
